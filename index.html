@@ -109,7 +109,7 @@ footer{text-align:center;margin:20px 0 4px;font-size:12px;color:var(--mut);font-
 <div class="wrap">
   <header class="hero">
     <div class="logo-wrap">
-      <img src="images.png" alt="Blue Star" class="brand-logo">
+      <img src="images (1).png" alt="Blue Star" class="brand-logo">
     </div>
     <h1>BLUE STAR SERVICE SUPPORT</h1>
     <p>Escalation Matrix · Coimbatore Branch</p>
@@ -127,7 +127,7 @@ footer{text-align:center;margin:20px 0 4px;font-size:12px;color:var(--mut);font-
   </section>
 
   <section class="card rise" style="--i:2">
-    <div class="h"><div class="num" style="--c1:#8FCBFA;--c2:#4A98E6">0</div><div><h2>LEVEL 0</h2><span>Customer care · always available</span></div></div>
+    <div class="h"><div class="num" style="--c1:#8FCBFA;--c2:#4A98E6">0</div><div><h2>LEVEL 0</h2><span>Customer care ·24/7</span></div></div>
     <a class="line" href="tel:8976781177"><span class="act"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.400 11.400 0 0 0 3.600.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.500a1 1 0 0 1 1 1c0 1.250.2 2.450.57 3.600a1 1 0 0 1-.25 1z"/></svg></span><span class="t"><small>CALL</small><b>89767 81177</b></span></a>
     <a class="line" href="https://wa.me/918291001177"><span class="act"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.600 15.100L2 22l5-1.300A10 10 0 1 0 12 2zm5.200 14.100c-.2.600-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.200-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.9 2.100c.1.200.1.400 0 .5l-.4.600-.3.400c-.1.100-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1.100c.2-.3.4-.2.600-.1l2 1c.3.100.5.200.6.300.1.200.1.800-.1 1.400z"/></svg></span><span class="t"><small>WHATSAPP</small><b>829 100 1177</b></span></a>
     <a class="line" href="sms:57575?body=Service"><span class="act"><svg viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM7 9h10v2H7zm0-3h10v2H7zm0 6h7v2H7z"/></svg></span><span class="t"><small>SMS</small><b>‘Service’ to 57575</b></span></a>
@@ -153,6 +153,23 @@ footer{text-align:center;margin:20px 0 4px;font-size:12px;color:var(--mut);font-
 
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
 
+  /* Email lookup – only these four persons have known email IDs */
+  var EMAIL_MAP = {
+    "Nirdeva Kumar G": "nirdevakumarg@bluestarindia.com",
+    "Shabeer Ahamed":  "shabeera@bluestarindia.com",
+    "Selvamurugan":    "selvamurugang@bluestarindia.com",
+    "Tharrun":         "tharruns@bluestarindia.com"
+  };
+
+  var EMAIL_ICON = '<svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>';
+
+  /* Add "Mr." prefix to person names (not company / branch names) */
+  function mrName(name) {
+    name = String(name || "").trim();
+    if (!name) return "";
+    return "Mr. " + name;
+  }
+
   function lookup(pin) {
     var key = String(pin).trim();
     if (!/^\d{6}$/.test(key)) return null;
@@ -169,6 +186,17 @@ footer{text-align:center;margin:20px 0 4px;font-size:12px;color:var(--mut);font-
     return '<a class="call" href="tel:' + esc(phone.replace(/[^\d+]/g, "")) + '" aria-label="Call ' + esc(label) + " " + esc(phone) + '">' +
       '<span class="t"><small>' + esc(label) + "</small><b>" + esc(phone) + '</b></span><span class="ic">' + PHONE + "</span></a>";
   }
+
+  /* Build email row – only if person has a known email */
+  function emailRow(personName) {
+    var rawName = String(personName || "").trim();
+    var email = EMAIL_MAP[rawName];
+    if (!email) return "";
+    return '<a class="line" href="mailto:' + esc(email) + '" style="margin-top:10px">' +
+      '<span class="act" style="background:linear-gradient(145deg,#5AA8F2,#2A72C6)">' + EMAIL_ICON + '</span>' +
+      '<span class="t"><small>E-MAIL</small><b style="font-size:13px;letter-spacing:-.01em">' + esc(email) + '</b></span></a>';
+  }
+
   function who(role, name, chip) {
     name = String(name || "").trim();
     if (!name) return "";
@@ -181,10 +209,10 @@ footer{text-align:center;margin:20px 0 4px;font-size:12px;color:var(--mut);font-
   function render(rec) {
     var code = String(rec.esaCode || "").trim();
     levelsEl.innerHTML =
-      level(1, "LEVEL 1", "Service provider &amp; CRO", who("Authorised Service Provider", rec.esaName, code ? "ESA " + code : "") + call("CRO CONTACT", rec.croPhone), 0) +
-      level(2, "LEVEL 2", "ESA owner", who("Name", rec.owner) + call("MOBILE", rec.ownerPhone), 1) +
-      level(3, "LEVEL 3", "Service delivery engineer", who("Name", rec.sde) + call("MOBILE", rec.sdePhone), 2) +
-      level(4, "LEVEL 4", "Branch manager", who("Name", rec.bm) + call("MOBILE", rec.bmPhone), 3);
+      level(1, "LEVEL 1", "Service Center &amp; CRO", who("Authorised Service Center", rec.esaName, code ? "ESA " + code : "") + call("CRO CONTACT", rec.croPhone), 0) +
+      level(2, "LEVEL 2", "ESA owner", who("Name", mrName(rec.owner)) + call("MOBILE", rec.ownerPhone) + emailRow(rec.owner), 1) +
+      level(3, "LEVEL 3", "Service delivery engineer", who("Name", mrName(rec.sde)) + call("MOBILE", rec.sdePhone) + emailRow(rec.sde), 2) +
+      level(4, "LEVEL 4", "Branch manager", who("Name", mrName(rec.bm)) + call("MOBILE", rec.bmPhone) + emailRow(rec.bm), 3);
     levelsEl.hidden = false; emptyEl.hidden = true;
   }
 
@@ -208,6 +236,22 @@ footer{text-align:center;margin:20px 0 4px;font-size:12px;color:var(--mut);font-
     }
     locEl.textContent = rec.location; locEl.className = "";
     render(rec);
+    fetchAreaName(v);
+  }
+
+  /* Fetch area name from India Post API; fall back to branch name on failure */
+  function fetchAreaName(pin) {
+    try {
+      fetch("https://api.postalpincode.in/pincode/" + pin)
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data && data[0] && data[0].Status === "Success" && data[0].PostOffice && data[0].PostOffice.length) {
+            var po = data[0].PostOffice[0];
+            locEl.textContent = po.Name + ", " + po.District;
+          }
+        })
+        .catch(function () { /* offline or error – keep existing branch name */ });
+    } catch (e) { /* fetch not supported – keep existing branch name */ }
   }
   function reset() { pinEl.value = ""; setHint(""); clearResults(); pinEl.focus(); }
 
